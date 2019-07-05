@@ -1,15 +1,17 @@
-import { View, layout } from "tns-core-modules/ui/core/view";
-import { fromObject } from "tns-core-modules/data/observable";
-import * as types from "tns-core-modules/utils/types";
-import * as utils from "tns-core-modules/utils/utils";
+import { View, layout } from 'tns-core-modules/ui/core/view';
+import { fromObject } from 'tns-core-modules/data/observable';
+import * as types from 'tns-core-modules/utils/types';
+import * as utils from 'tns-core-modules/utils/utils';
+import { topmost } from 'tns-core-modules/ui/frame/frame';
 
 declare const NSJSONSerialization: any;
 declare const TWTRAPIClient: any;
 declare const TWTRTwitter: any;
 declare const TWTRLogInButton: any;
 
-export class TNSTwitter_Custom {
+export class TNSTwitterCustom {
   public static init(key: string, secret: string) {}
+
   public static getCurrentUserEmail(): Promise<any> {
     return new Promise((resolve, reject) => {
       const client = TWTRAPIClient.clientWithCurrentUser();
@@ -22,6 +24,7 @@ export class TNSTwitter_Custom {
       });
     });
   }
+
   public static getCurrentUser(
     userID: string,
     token?: string,
@@ -51,7 +54,7 @@ export class TNSTwitter_Custom {
       });
     });
   }
-  public static logIn(controller: any): Promise<any> {
+  public static logIn(controller: UINavigationController): Promise<any> {
     return new Promise((resolve, reject) => {
       TWTRTwitter.sharedInstance().logInWithViewControllerCompletion(
         controller,
@@ -59,7 +62,7 @@ export class TNSTwitter_Custom {
           if (error) {
             reject({ message: error.localizedDescription });
           } else {
-            TNSTwitter_Custom.getCurrentUser(
+            TNSTwitterCustom.getCurrentUser(
               session.userID,
               session.authToken,
               session.authTokenSecret
@@ -73,8 +76,8 @@ export class TNSTwitter_Custom {
   }
 }
 
-export class TNSTwitterButton_Custom extends View {
-  private _ios;
+export class TNSTwitterButtonCustom extends View {
+  private _ios: any;
   get ios() {
     return this._ios;
   }
@@ -83,14 +86,14 @@ export class TNSTwitterButton_Custom extends View {
       (session: any, error: any) => {
         if (error) {
           this.notify({
-            eventName: "loginStatus",
-            object: fromObject({ value: "failed" })
+            eventName: 'loginStatus',
+            object: fromObject({ value: 'failed' })
           });
         } else {
           this.notify({
-            eventName: "loginStatus",
+            eventName: 'loginStatus',
             object: fromObject({
-              value: "success",
+              value: 'success',
               userName: session.userName,
               userID: session.userID
             })
@@ -107,7 +110,7 @@ export class TNSTwitterButton_Custom extends View {
   }
 }
 
-export class CustomApiService_Custom {
+export class CustomApiServiceCustom {
   private _config: any;
   private _token: any;
   constructor() {
@@ -151,7 +154,7 @@ export class CustomApiService_Custom {
   }
 
   toJsObject = function(objCObj: any) {
-    if (objCObj === null || typeof objCObj != "object") {
+    if (objCObj === null || typeof objCObj != 'object') {
       return objCObj;
     }
     var node: any,
@@ -174,21 +177,21 @@ export class CustomApiService_Custom {
         var val = objCObj.valueForKey(key);
         if (val) {
           switch (types.getClass(val)) {
-            case "NSArray":
-            case "NSMutableArray":
+            case 'NSArray':
+            case 'NSMutableArray':
               node[key] = this.toJsObject(val);
               break;
-            case "NSDictionary":
-            case "NSMutableDictionary":
+            case 'NSDictionary':
+            case 'NSMutableDictionary':
               node[key] = this.toJsObject(val);
               break;
-            case "String":
+            case 'String':
               node[key] = String(val);
               break;
-            case "Boolean":
+            case 'Boolean':
               node[key] = Boolean(val);
               break;
-            case "Number":
+            case 'Number':
               node[key] = Number(String(val));
               break;
           }

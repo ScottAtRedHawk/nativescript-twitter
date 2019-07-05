@@ -1,16 +1,23 @@
-import { View } from "tns-core-modules/ui/core/view";
-export declare class TNSTwitter_Custom {
+import { View } from 'tns-core-modules/ui/core/view';
+
+export declare class TNSTwitterCustom {
   static init(key: string, secret: string): void;
+
   static getCurrentUserEmail(): Promise<any>;
+
   static getCurrentUser(
     userID: string,
     token?: string,
     tokenSecret?: string
   ): Promise<any>;
-  static logIn(controller: any): Promise<any>;
+
+  static logIn(controller: UINavigationController | any): Promise<any>;
 }
-export declare class TNSTwitterButton_Custom extends View {}
-export declare class CustomApiService_Custom {
+
+export declare class TNSTwitterButtonCustom extends View {}
+
+export declare class CustomApiServiceCustom {
   makeRequest(url: any, method: any, options?: any): Promise<any>;
+
   toJsObject: (objCObj: any) => any;
 }
