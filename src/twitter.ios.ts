@@ -1,9 +1,13 @@
 import { View , layout} from "tns-core-modules/ui/core/view";
 import { fromObject } from "tns-core-modules/data/observable";
-import * as http from "tns-core-modules/http";
 import * as types from "tns-core-modules/utils/types";
 import * as utils from "tns-core-modules/utils/utils";
-declare const NSJSONSerialization;
+
+declare const NSJSONSerialization: any;
+declare const TWTRAPIClient: any;
+declare const TWTRTwitter: any;
+declare const TWTRLogInButton: any;
+
 export class TNSTwitter {
     public static init(key: string, secret: string) {
     }
@@ -22,7 +26,7 @@ export class TNSTwitter {
     public static getCurrentUser(userID: string, token?: string, tokenSecret?: string): Promise<any> {
         return new Promise((resolve, reject) => {
             const client = TWTRAPIClient.clientWithCurrentUser();
-            client.loadUserWithIDCompletion(userID, (user: TWTRUser, error) => {
+            client.loadUserWithIDCompletion(userID, (user: any, error: any) => {
                 if (error) {
                     reject({ message: error.localizedDescription });
                 } else {
@@ -46,7 +50,7 @@ export class TNSTwitter {
     }
     public static logIn(controller: any): Promise<any> {
       return new Promise((resolve, reject) => {
-        TWTRTwitter.sharedInstance().logInWithViewControllerCompletion(controller, (session, error) => {
+        TWTRTwitter.sharedInstance().logInWithViewControllerCompletion(controller, (session: any, error: any) => {
           if (error) {
             reject({ message: error.localizedDescription });
           } else {
@@ -66,7 +70,7 @@ export class TNSTwitterButton extends View {
         return this._ios;
     }
     public createNativeView() {
-        this._ios = TWTRLogInButton.buttonWithLogInCompletion((session, error) => {
+        this._ios = TWTRLogInButton.buttonWithLogInCompletion((session: any, error: any) => {
             if (error) {
                 this.notify({
                     eventName: 'loginStatus',
@@ -89,19 +93,19 @@ export class TNSTwitterButton extends View {
 }
 
 export class CustomApiService {
-    private _config;
-    private _token;
+    private _config: any;
+    private _token: any;
     constructor() {
         this._config = utils.ios.getter(TWTRTwitter, TWTRTwitter.sharedInstance).authConfig;
         this._token = utils.ios.getter(TWTRTwitter, TWTRTwitter.sharedInstance).sessionStore.session();
     }
-    makeRequest(url, method, options?): Promise<any> {
+    makeRequest(url: string, method: string, options?: any): Promise<any> {
         return new Promise((resolve, reject) => {
             let nsError;
             const client: any = TWTRAPIClient.clientWithCurrentUser();
             const request = client.URLRequestWithMethodURLParametersError(method, url, null, nsError);
             if (request) {
-                client.sendTwitterRequestCompletion(request, (res, data, error) => {
+                client.sendTwitterRequestCompletion(request, (res: any, data: any, error: any) => {
                     if (data) {
                         const json = NSJSONSerialization.JSONObjectWithDataOptionsError(data, 0);
                         resolve(this.toJsObject(json));
@@ -116,11 +120,11 @@ export class CustomApiService {
     }
 
 
-    toJsObject = function (objCObj) {
+    toJsObject = function (objCObj: any) {
         if (objCObj === null || typeof objCObj != "object") {
             return objCObj;
         }
-        var node, key, i, l,
+        var node: any, key: any, i: any, l: any,
             oKeyArr = objCObj.allKeys;
         if (oKeyArr === undefined) {
             // array
