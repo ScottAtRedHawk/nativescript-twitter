@@ -11,7 +11,7 @@ export declare class TNSTwitterCustom {
     tokenSecret?: string
   ): Promise<any>;
 
-  static logIn(controller: UINavigationController | any): Promise<any>;
+  static logIn(controller: any): Promise<any>;
 }
 
 export declare class TNSTwitterButtonCustom extends View {}

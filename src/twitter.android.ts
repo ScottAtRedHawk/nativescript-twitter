@@ -1,8 +1,8 @@
-import * as utils from 'tns-core-modules/utils/utils';
-import * as app from 'tns-core-modules/application';
-import { View } from 'tns-core-modules/ui/core/view';
-import { fromObject } from 'tns-core-modules/data/observable';
-import * as http from 'tns-core-modules/http';
+import * as utils from "tns-core-modules/utils/utils";
+import * as app from "tns-core-modules/application";
+import { View } from "tns-core-modules/ui/core/view";
+import { fromObject } from "tns-core-modules/data/observable";
+import * as http from "tns-core-modules/http";
 
 declare const com: any, java;
 
@@ -31,7 +31,7 @@ export class TNSTwitterCustom {
             if (result.data && result.data.length > 0) {
               resolve(result.data);
             } else {
-              reject({ message: 'This user does not have an email address.' });
+              reject({ message: "This user does not have an email address." });
             }
           },
           failure(exception) {
@@ -51,8 +51,8 @@ export class TNSTwitterCustom {
       const api = new CustomApiServiceCustom();
       api
         .makeRequest(
-          'https://api.twitter.com/1.1/account/verify_credentials.json',
-          'get'
+          "https://api.twitter.com/1.1/account/verify_credentials.json",
+          "get"
         )
         .then(
           data => {
@@ -63,12 +63,12 @@ export class TNSTwitterCustom {
               isVerified: user.verified,
               name: user.name,
               profileImageLargeURL: user.profile_image_url_https.replace(
-                '_normal',
-                '_bigger'
+                "_normal",
+                "_bigger"
               ),
               profileImageMiniURL: user.profile_image_url_https.replace(
-                '_normal',
-                '_mini'
+                "_normal",
+                "_mini"
               ),
               profileImageURL: user.profile_image_url_https,
               profileURL: user.url,
@@ -85,9 +85,9 @@ export class TNSTwitterCustom {
     });
   }
 
-  public static logIn(controller: UINavigationController | any): Promise<any> {
+  public static logIn(controller: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      reject('TODO for Android!!');
+      reject("TODO for Android!!");
     });
   }
 
@@ -124,9 +124,9 @@ export class TNSTwitterButtonCustom extends View {
       owner: that.get(),
       success(result) {
         this.owner.notify({
-          eventName: 'loginStatus',
+          eventName: "loginStatus",
           object: fromObject({
-            value: 'success',
+            value: "success",
             userName: result.data.getUserName(),
             userID: result.data.getUserId()
           })
@@ -134,9 +134,9 @@ export class TNSTwitterButtonCustom extends View {
       },
       failure(exception) {
         this.owner.notify({
-          eventName: 'loginStatus',
+          eventName: "loginStatus",
           object: fromObject({
-            value: 'failed',
+            value: "failed",
             message: exception.getMessage()
           })
         });
@@ -189,7 +189,7 @@ export class CustomApiServiceCustom {
       }
     } else {
       return new Promise((resolve, reject) => {
-        reject('User is not logged in');
+        reject("User is not logged in");
       });
     }
   }
@@ -198,13 +198,13 @@ export class CustomApiServiceCustom {
     let store = new java.util.HashMap();
     Object.keys(value).forEach((item, key) => {
       switch (typeof value[item]) {
-        case 'string':
+        case "string":
           store.put(item, value[item]);
           break;
-        case 'boolean':
+        case "boolean":
           store.put(item, new java.lang.String(String(value[item])));
           break;
-        case 'number':
+        case "number":
           store.put(item, value[item]);
           break;
       }

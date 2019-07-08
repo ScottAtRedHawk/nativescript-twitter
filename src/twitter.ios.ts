@@ -1,13 +1,13 @@
-import { View, layout } from 'tns-core-modules/ui/core/view';
-import { fromObject } from 'tns-core-modules/data/observable';
-import * as types from 'tns-core-modules/utils/types';
-import * as utils from 'tns-core-modules/utils/utils';
-import { topmost } from 'tns-core-modules/ui/frame/frame';
+import { View, layout } from "tns-core-modules/ui/core/view";
+import { fromObject } from "tns-core-modules/data/observable";
+import * as types from "tns-core-modules/utils/types";
+import * as utils from "tns-core-modules/utils/utils";
 
 declare const NSJSONSerialization: any;
 declare const TWTRAPIClient: any;
 declare const TWTRTwitter: any;
 declare const TWTRLogInButton: any;
+declare const UINavigationController: any;
 
 export class TNSTwitterCustom {
   public static init(key: string, secret: string) {}
@@ -54,7 +54,9 @@ export class TNSTwitterCustom {
       });
     });
   }
-  public static logIn(controller: UINavigationController): Promise<any> {
+  public static logIn(
+    controller: any /* UINavigationController */
+  ): Promise<any> {
     return new Promise((resolve, reject) => {
       TWTRTwitter.sharedInstance().logInWithViewControllerCompletion(
         controller,
@@ -86,14 +88,14 @@ export class TNSTwitterButtonCustom extends View {
       (session: any, error: any) => {
         if (error) {
           this.notify({
-            eventName: 'loginStatus',
-            object: fromObject({ value: 'failed' })
+            eventName: "loginStatus",
+            object: fromObject({ value: "failed" })
           });
         } else {
           this.notify({
-            eventName: 'loginStatus',
+            eventName: "loginStatus",
             object: fromObject({
-              value: 'success',
+              value: "success",
               userName: session.userName,
               userID: session.userID
             })
@@ -154,7 +156,7 @@ export class CustomApiServiceCustom {
   }
 
   toJsObject = function(objCObj: any) {
-    if (objCObj === null || typeof objCObj != 'object') {
+    if (objCObj === null || typeof objCObj != "object") {
       return objCObj;
     }
     var node: any,
@@ -177,21 +179,21 @@ export class CustomApiServiceCustom {
         var val = objCObj.valueForKey(key);
         if (val) {
           switch (types.getClass(val)) {
-            case 'NSArray':
-            case 'NSMutableArray':
+            case "NSArray":
+            case "NSMutableArray":
               node[key] = this.toJsObject(val);
               break;
-            case 'NSDictionary':
-            case 'NSMutableDictionary':
+            case "NSDictionary":
+            case "NSMutableDictionary":
               node[key] = this.toJsObject(val);
               break;
-            case 'String':
+            case "String":
               node[key] = String(val);
               break;
-            case 'Boolean':
+            case "Boolean":
               node[key] = Boolean(val);
               break;
-            case 'Number':
+            case "Number":
               node[key] = Number(String(val));
               break;
           }
