@@ -6,8 +6,8 @@
   "typings": "index.d.ts",
   "nativescript": {
     "platforms": {
-      "ios": "3.0.0",
-      "android": "3.0.0"
+      "ios": "6.0.1",
+      "android": "6.0.0"
     }
   },
   "scripts": {
@@ -20,9 +20,9 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "tns-core-modules": "^5.2.0",
-    "tns-platform-declarations": "^5.2.0",
-    "typescript": "~3.1.6"
+    "tns-core-modules": "^6.0.1",
+    "tns-platform-declarations": "^6.0.1",
+    "typescript": "^3.2.4"
   },
   "bugs": {
     "url": "https://github.com/triniwiz/nativescript-twitter/issues"
