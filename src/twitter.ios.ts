@@ -1,13 +1,11 @@
 import { View, layout } from "tns-core-modules/ui/core/view";
 import { fromObject } from "tns-core-modules/data/observable";
 import * as types from "tns-core-modules/utils/types";
-import * as utils from "tns-core-modules/utils/utils";
 
 declare const NSJSONSerialization: any;
 declare const TWTRAPIClient: any;
 declare const TWTRTwitter: any;
 declare const TWTRLogInButton: any;
-declare const UINavigationController: any;
 
 export class TNSTwitterCustom {
   public static init(key: string, secret: string) {}
@@ -116,13 +114,8 @@ export class CustomApiServiceCustom {
   private _config: any;
   private _token: any;
   constructor() {
-    this._config = utils.ios.getter(
-      TWTRTwitter,
-      TWTRTwitter.sharedInstance
-    ).authConfig;
-    this._token = utils.ios
-      .getter(TWTRTwitter, TWTRTwitter.sharedInstance)
-      .sessionStore.session();
+    this._config = TWTRTwitter.sharedInstance().authConfig;
+    this._token = TWTRTwitter.sharedInstance().sessionStore.session();
   }
   makeRequest(url: string, method: string, options?: any): Promise<any> {
     return new Promise((resolve, reject) => {
