@@ -4,9 +4,9 @@ import { View } from "tns-core-modules/ui/core/view";
 import { fromObject } from "tns-core-modules/data/observable";
 import * as http from "tns-core-modules/http";
 
-declare const com: any, java;
+declare const com: any;
 
-export class TNSTwitterCustom {
+export class TNSTwitter {
   public static init(key: string, secret: string) {
     const config = new com.twitter.sdk.android.core.TwitterConfig.Builder(
       utils.ad.getApplicationContext()
@@ -48,7 +48,7 @@ export class TNSTwitterCustom {
     tokenSecret?: string
   ): Promise<any> {
     return new Promise((resolve, reject) => {
-      const api = new CustomApiServiceCustom();
+      const api = new CustomApiService();
       api
         .makeRequest(
           "https://api.twitter.com/1.1/account/verify_credentials.json",
@@ -107,7 +107,7 @@ export class TNSTwitterCustom {
   }
 }
 
-export class TNSTwitterButtonCustom extends View {
+export class TNSTwitterButton extends View {
   private _android;
   get android() {
     return this._android;
@@ -142,11 +142,11 @@ export class TNSTwitterButtonCustom extends View {
         });
       }
     });
-    this._android.setCallback(new _cb());
+    (this._android as any).setCallback(new _cb());
     app.android.on(
       app.AndroidApplication.activityResultEvent,
       (args: app.AndroidActivityResultEventData) => {
-        this._android.onActivityResult(
+        (this._android as any).onActivityResult(
           args.requestCode,
           args.resultCode,
           args.intent
@@ -156,12 +156,12 @@ export class TNSTwitterButtonCustom extends View {
   }
 }
 
-export class CustomApiServiceCustom {
+export class CustomApiService {
   private _config;
   private _token;
   constructor() {
-    this._config = TNSTwitterCustom.getNativeConfig();
-    this._token = TNSTwitterCustom.getNativeToken();
+    this._config = TNSTwitter.getNativeConfig();
+    this._token = TNSTwitter.getNativeToken();
   }
   makeRequest(url, method, options?): Promise<any> {
     if (this._config && this._token) {

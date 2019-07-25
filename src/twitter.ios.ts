@@ -7,7 +7,7 @@ declare const TWTRAPIClient: any;
 declare const TWTRTwitter: any;
 declare const TWTRLogInButton: any;
 
-export class TNSTwitterCustom {
+export class TNSTwitter {
   public static init(key: string, secret: string) {}
 
   public static getCurrentUserEmail(): Promise<any> {
@@ -62,7 +62,7 @@ export class TNSTwitterCustom {
           if (error) {
             reject({ message: error.localizedDescription });
           } else {
-            TNSTwitterCustom.getCurrentUser(
+            TNSTwitter.getCurrentUser(
               session.userID,
               session.authToken,
               session.authTokenSecret
@@ -74,9 +74,19 @@ export class TNSTwitterCustom {
       );
     });
   }
+
+  public static getNativeConfig() {
+    console.log("Not implemented on iOS");
+    return null;
+  }
+
+  public static getNativeToken() {
+    console.log("Not implemented on iOS");
+    return null;
+  }
 }
 
-export class TNSTwitterButtonCustom extends View {
+export class TNSTwitterButton extends View {
   private _ios: any;
   get ios() {
     return this._ios;
@@ -110,7 +120,7 @@ export class TNSTwitterButtonCustom extends View {
   }
 }
 
-export class CustomApiServiceCustom {
+export class CustomApiService {
   private _config: any;
   private _token: any;
   constructor() {
