@@ -1,6 +1,6 @@
 import * as utils from "tns-core-modules/utils/utils";
 import * as app from "tns-core-modules/application";
-import { View } from "tns-core-modules/ui/core/view";
+import { View, Property } from "tns-core-modules/ui/core/view";
 import { fromObject } from "tns-core-modules/data/observable";
 import * as http from "tns-core-modules/http";
 
@@ -107,19 +107,51 @@ export class TNSTwitter {
   }
 }
 
-export class TNSTwitterButton extends View {
+export const textProperty = new Property<TNSTwitterButtonBase, string>({
+  name: "text",
+  defaultValue: ""
+});
+
+export abstract class TNSTwitterButtonBase extends View {
+  text: string;
+}
+
+// Defines 'text' property on MyButtonBase class.
+textProperty.register(TNSTwitterButtonBase);
+
+// If set to true - nativeView will be kept in memory and reused when some other instance
+// of type MyButtonBase needs nativeView. Set to true only if you are sure that you can reset the
+// nativeView to its initial state. When true will improve application performance.
+(TNSTwitterButtonBase.prototype as any).recycleNativeView = false;
+
+export class TNSTwitterButton extends TNSTwitterButtonBase {
+  // View {
   private _android;
+
   get android() {
     return this._android;
   }
+
   public createNativeView() {
     this._android = new com.twitter.sdk.android.core.identity.TwitterLoginButton(
       app.android.foregroundActivity
     );
+
+    // remove twitter icon
+    (this
+      ._android as android.widget.Button).setCompoundDrawablesWithIntrinsicBounds(
+      null,
+      null,
+      null,
+      null
+    );
+
     return this._android;
   }
+
   public initNativeView() {
     const that = new WeakRef(this);
+
     const _cb = com.twitter.sdk.android.core.Callback.extend({
       owner: that.get(),
       success(result) {
@@ -142,7 +174,9 @@ export class TNSTwitterButton extends View {
         });
       }
     });
-    (this._android as any).setCallback(new _cb());
+
+    this._android.setCallback(new _cb());
+
     app.android.on(
       app.AndroidApplication.activityResultEvent,
       (args: app.AndroidActivityResultEventData) => {
@@ -153,6 +187,11 @@ export class TNSTwitterButton extends View {
         );
       }
     );
+  }
+
+  // transfer JS text value to nativeView.
+  [textProperty.setNative](value: string) {
+    this.nativeView.setText(value);
   }
 }
 
