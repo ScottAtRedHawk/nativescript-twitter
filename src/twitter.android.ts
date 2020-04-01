@@ -1,15 +1,20 @@
-import * as utils from "tns-core-modules/utils/utils";
-import * as app from "tns-core-modules/application";
-import { View, Property } from "tns-core-modules/ui/core/view";
-import { fromObject } from "tns-core-modules/data/observable";
-import * as http from "tns-core-modules/http";
+import {
+  Application,
+  View,
+  Http,
+  AndroidApplication,
+  AndroidActivityResultEventData
+} from "@nativescript/core";
+import { Property } from "@nativescript/core/ui/core/properties";
+import { ad } from "@nativescript/core/utils/utils";
+import { fromObject } from "@nativescript/core/data/observable";
 
 declare const com: any;
 
 export class TNSTwitter {
   public static init(key: string, secret: string) {
     const config = new com.twitter.sdk.android.core.TwitterConfig.Builder(
-      utils.ad.getApplicationContext()
+      ad.getApplicationContext()
     )
       .twitterAuthConfig(
         new com.twitter.sdk.android.core.TwitterAuthConfig(key, secret)
@@ -134,7 +139,7 @@ export class TNSTwitterButton extends TNSTwitterButtonBase {
 
   public createNativeView() {
     this._android = new com.twitter.sdk.android.core.identity.TwitterLoginButton(
-      app.android.foregroundActivity
+      Application.android.foregroundActivity
     );
 
     // remove twitter icon
@@ -177,9 +182,9 @@ export class TNSTwitterButton extends TNSTwitterButtonBase {
 
     this._android.setCallback(new _cb());
 
-    app.android.on(
-      app.AndroidApplication.activityResultEvent,
-      (args: app.AndroidActivityResultEventData) => {
+    Application.android.on(
+      AndroidApplication.activityResultEvent,
+      (args: AndroidActivityResultEventData) => {
         (this._android as any).onActivityResult(
           args.requestCode,
           args.resultCode,
@@ -214,7 +219,7 @@ export class CustomApiService {
           url,
           options ? this.buildOptions(options) : null
         );
-        return http.request({
+        return Http.request({
           url: url,
           method: method,
           headers: {

@@ -1,6 +1,6 @@
-import { View, layout } from "tns-core-modules/ui/core/view";
-import { fromObject } from "tns-core-modules/data/observable";
-import * as types from "tns-core-modules/utils/types";
+import { View, Utils } from "@nativescript/core";
+import { fromObject } from "@nativescript/core/data/observable";
+import { getClass } from "@nativescript/core/utils/types";
 
 declare const NSJSONSerialization: any;
 declare const TWTRAPIClient: any;
@@ -114,8 +114,8 @@ export class TNSTwitterButton extends View {
     return this._ios;
   }
   public onMeasure(widthMeasureSpec: number, heightMeasureSpec: number) {
-    const width = layout.getMeasureSpecSize(widthMeasureSpec);
-    const height = layout.getMeasureSpecSize(heightMeasureSpec);
+    const width = Utils.layout.getMeasureSpecSize(widthMeasureSpec);
+    const height = Utils.layout.getMeasureSpecSize(heightMeasureSpec);
     this.setMeasuredDimension(width, height);
   }
 }
@@ -181,7 +181,7 @@ export class CustomApiService {
         key = oKeyArr.objectAtIndex(i);
         var val = objCObj.valueForKey(key);
         if (val) {
-          switch (types.getClass(val)) {
+          switch (getClass(val)) {
             case "NSArray":
             case "NSMutableArray":
               node[key] = this.toJsObject(val);

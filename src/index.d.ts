@@ -1,4 +1,5 @@
-import { View, Property } from "tns-core-modules/ui/core/view";
+import { View } from "@nativescript/core";
+import { Property } from "@nativescript/core/ui/core/properties";
 
 export declare class TNSTwitter {
   public static init(key: string, secret: string): void;
