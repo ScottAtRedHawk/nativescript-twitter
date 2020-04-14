@@ -1,4 +1,4 @@
-!src/types/references.d.ts
+!references.d.ts
 
 *.js
 *.js.map
