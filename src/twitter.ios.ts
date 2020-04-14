@@ -1,6 +1,6 @@
-import { View, Utils } from "@nativescript/core";
-import { fromObject } from "@nativescript/core/data/observable";
-import { getClass } from "@nativescript/core/utils/types";
+import { View, Utils } from '@nativescript/core';
+import { fromObject } from '@nativescript/core/data/observable';
+import { getClass } from '@nativescript/core/utils/types';
 
 declare const NSJSONSerialization: any;
 declare const TWTRAPIClient: any;
@@ -13,7 +13,7 @@ export class TNSTwitter {
   public static getCurrentUserEmail(): Promise<any> {
     return new Promise((resolve, reject) => {
       const client = TWTRAPIClient.clientWithCurrentUser();
-      client.requestEmailForCurrentUser((email: string, error) => {
+      client.requestEmailForCurrentUser((email: string, error: any) => {
         if (error) {
           reject({ message: error.localizedDescription });
         } else {
@@ -30,6 +30,7 @@ export class TNSTwitter {
   ): Promise<any> {
     return new Promise((resolve, reject) => {
       const client = TWTRAPIClient.clientWithCurrentUser();
+
       client.loadUserWithIDCompletion(userID, (user: any, error: any) => {
         if (error) {
           reject({ message: error.localizedDescription });
@@ -66,7 +67,7 @@ export class TNSTwitter {
               session.userID,
               session.authToken,
               session.authTokenSecret
-            ).then(user => {
+            ).then((user: any) => {
               resolve(user);
             });
           }
@@ -76,12 +77,12 @@ export class TNSTwitter {
   }
 
   public static getNativeConfig() {
-    console.log("Not implemented on iOS");
+    console.log('Not implemented on iOS');
     return null;
   }
 
   public static getNativeToken() {
-    console.log("Not implemented on iOS");
+    console.log('Not implemented on iOS');
     return null;
   }
 }
@@ -96,14 +97,14 @@ export class TNSTwitterButton extends View {
       (session: any, error: any) => {
         if (error) {
           this.notify({
-            eventName: "loginStatus",
-            object: fromObject({ value: "failed" })
+            eventName: 'loginStatus',
+            object: fromObject({ value: 'failed' })
           });
         } else {
           this.notify({
-            eventName: "loginStatus",
+            eventName: 'loginStatus',
             object: fromObject({
-              value: "success",
+              value: 'success',
               userName: session.userName,
               userID: session.userID
             })
@@ -158,8 +159,8 @@ export class CustomApiService {
     });
   }
 
-  toJsObject = function(objCObj: any) {
-    if (objCObj === null || typeof objCObj != "object") {
+  toJsObject = function (objCObj: any) {
+    if (objCObj === null || typeof objCObj != 'object') {
       return objCObj;
     }
     var node: any,
@@ -182,21 +183,21 @@ export class CustomApiService {
         var val = objCObj.valueForKey(key);
         if (val) {
           switch (getClass(val)) {
-            case "NSArray":
-            case "NSMutableArray":
+            case 'NSArray':
+            case 'NSMutableArray':
               node[key] = this.toJsObject(val);
               break;
-            case "NSDictionary":
-            case "NSMutableDictionary":
+            case 'NSDictionary':
+            case 'NSMutableDictionary':
               node[key] = this.toJsObject(val);
               break;
-            case "String":
+            case 'String':
               node[key] = String(val);
               break;
-            case "Boolean":
+            case 'Boolean':
               node[key] = Boolean(val);
               break;
-            case "Number":
+            case 'Number':
               node[key] = Number(String(val));
               break;
           }
