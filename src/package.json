@@ -11,7 +11,8 @@
     }
   },
   "scripts": {
-    "tsc": "tsc"
+    "tsc": "tsc",
+    "tsc-nativescript-twitter-custom": "echo \"Hold Control (or Command) + Shift + B. Select tsc:build - tsconfig.json.\""
   },
   "author": {
     "name": "Osei Fortune",
