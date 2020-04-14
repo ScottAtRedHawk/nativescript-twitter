@@ -19,8 +19,10 @@
     "url": "https://github.com/triniwiz"
   },
   "license": "MIT",
+  "dependencies": {
+    "@nativescript/core": "6.5.1"
+  },
   "devDependencies": {
-    "@nativescript/core": "6.5.1",
     "tns-platform-declarations": "^6.5.1",
     "typescript": "^3.8.3"
   },
