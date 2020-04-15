@@ -1,6 +1,6 @@
 {
   "name": "nativescript-twitter-custom",
-  "version": "2.0.0",
+  "version": "2.0.2",
   "description": "NativeScript Twitter Kit for Android & IOS",
   "main": "twitter",
   "typings": "index.d.ts",
@@ -11,7 +11,20 @@
     }
   },
   "scripts": {
-    "tsc": "tsc"
+    "help": "echo \"Hold Control (or Command) + Shift + B. Select tsc:build - tsconfig.json.\"",
+    "?": "npm run help",
+    "preBuild": "trash ../dist",
+    "build": "npm run preBuild && tsc --project tsconfig.json && npm run postBuild",
+    "postBuild": "npm run copy-files",
+    "copy-files": "npm run copy-platforms-dir && npm run copy-json-files && npm run copy-dts-files && npm run copy-js-files && npm run copy-readme",
+    "copy-platforms-dir": "cpy 'platforms' '../dist' --parents",
+    "copy-json-files": "cpy '*.json' '!tsconfig.json' '!package-lock.json' '!node_modules' '!types' '../dist' --parents",
+    "copy-dts-files": "cpy '**/*.d.ts' '!node_modules' '!types' '../dist' --parents",
+    "copy-js-files": "cpy '**/*.js' '!node_modules' '!types' '../dist' --parents",
+    "copy-readme": "cpy 'readme.md' 'dist' --cwd='../' --parents",
+    "tsc": "tsc",
+    "cpy": "cpy",
+    "trash": "trash"
   },
   "author": {
     "name": "Osei Fortune",
@@ -19,9 +32,13 @@
     "url": "https://github.com/triniwiz"
   },
   "license": "MIT",
+  "dependencies": {
+    "@nativescript/core": "6.5.1"
+  },
   "devDependencies": {
-    "@nativescript/core": "6.5.1",
+    "cpy-cli": "^3.1.0",
     "tns-platform-declarations": "^6.5.1",
+    "trash-cli": "^3.0.0",
     "typescript": "^3.8.3"
   },
   "bugs": {
