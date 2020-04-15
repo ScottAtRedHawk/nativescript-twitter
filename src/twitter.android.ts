@@ -4,10 +4,10 @@ import {
   Http,
   AndroidApplication,
   AndroidActivityResultEventData
-} from "@nativescript/core";
-import { Property } from "@nativescript/core/ui/core/properties";
-import { ad } from "@nativescript/core/utils/utils";
-import { fromObject } from "@nativescript/core/data/observable";
+} from '@nativescript/core';
+import { Property } from '@nativescript/core/ui/core/properties';
+import { ad } from '@nativescript/core/utils/utils';
+import { fromObject } from '@nativescript/core/data/observable';
 
 declare const com: any;
 
@@ -36,7 +36,7 @@ export class TNSTwitter {
             if (result.data && result.data.length > 0) {
               resolve(result.data);
             } else {
-              reject({ message: "This user does not have an email address." });
+              reject({ message: 'This user does not have an email address.' });
             }
           },
           failure(exception) {
@@ -56,11 +56,11 @@ export class TNSTwitter {
       const api = new CustomApiService();
       api
         .makeRequest(
-          "https://api.twitter.com/1.1/account/verify_credentials.json",
-          "get"
+          'https://api.twitter.com/1.1/account/verify_credentials.json',
+          'get'
         )
         .then(
-          data => {
+          (data) => {
             const user = data.content.toJSON();
             resolve({
               formattedScreenName: user.screen_name,
@@ -68,12 +68,12 @@ export class TNSTwitter {
               isVerified: user.verified,
               name: user.name,
               profileImageLargeURL: user.profile_image_url_https.replace(
-                "_normal",
-                "_bigger"
+                '_normal',
+                '_bigger'
               ),
               profileImageMiniURL: user.profile_image_url_https.replace(
-                "_normal",
-                "_mini"
+                '_normal',
+                '_mini'
               ),
               profileImageURL: user.profile_image_url_https,
               profileURL: user.url,
@@ -83,7 +83,7 @@ export class TNSTwitter {
               tokenSecret
             });
           },
-          err => {
+          (err) => {
             reject(err.message);
           }
         );
@@ -92,7 +92,7 @@ export class TNSTwitter {
 
   public static logIn(controller: any): Promise<any> {
     return new Promise((resolve, reject) => {
-      reject("TODO for Android!!");
+      reject('TODO for Android!!');
     });
   }
 
@@ -113,8 +113,8 @@ export class TNSTwitter {
 }
 
 export const textProperty = new Property<TNSTwitterButtonBase, string>({
-  name: "text",
-  defaultValue: ""
+  name: 'text',
+  defaultValue: ''
 });
 
 export abstract class TNSTwitterButtonBase extends View {
@@ -161,9 +161,9 @@ export class TNSTwitterButton extends TNSTwitterButtonBase {
       owner: that.get(),
       success(result) {
         this.owner.notify({
-          eventName: "loginStatus",
+          eventName: 'loginStatus',
           object: fromObject({
-            value: "success",
+            value: 'success',
             userName: result.data.getUserName(),
             userID: result.data.getUserId()
           })
@@ -171,9 +171,9 @@ export class TNSTwitterButton extends TNSTwitterButtonBase {
       },
       failure(exception) {
         this.owner.notify({
-          eventName: "loginStatus",
+          eventName: 'loginStatus',
           object: fromObject({
-            value: "failed",
+            value: 'failed',
             message: exception.getMessage()
           })
         });
@@ -203,10 +203,12 @@ export class TNSTwitterButton extends TNSTwitterButtonBase {
 export class CustomApiService {
   private _config;
   private _token;
+
   constructor() {
     this._config = TNSTwitter.getNativeConfig();
     this._token = TNSTwitter.getNativeToken();
   }
+
   makeRequest(url, method, options?): Promise<any> {
     if (this._config && this._token) {
       try {
@@ -233,22 +235,23 @@ export class CustomApiService {
       }
     } else {
       return new Promise((resolve, reject) => {
-        reject("User is not logged in");
+        reject('User is not logged in');
       });
     }
   }
 
   private buildOptions(value) {
     let store = new java.util.HashMap();
+
     Object.keys(value).forEach((item, key) => {
       switch (typeof value[item]) {
-        case "string":
+        case 'string':
           store.put(item, value[item]);
           break;
-        case "boolean":
+        case 'boolean':
           store.put(item, new java.lang.String(String(value[item])));
           break;
-        case "number":
+        case 'number':
           store.put(item, value[item]);
           break;
       }
