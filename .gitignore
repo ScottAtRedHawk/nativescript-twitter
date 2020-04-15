@@ -2,7 +2,10 @@
 *.js.map
 *.log
 *.d.ts
+
 !index.d.ts
+
+dist
 demo/app/*.js
 demo/*.d.ts
 demo/lib
@@ -14,6 +17,7 @@ demo-ng/lib
 demo-ng/platforms
 demo-ng/node_modules
 node_modules
+
 .idea
 .vscode
 .DS_Store
