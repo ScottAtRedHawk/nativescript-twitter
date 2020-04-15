@@ -24,7 +24,9 @@
     "@nativescript/core": "6.5.1"
   },
   "devDependencies": {
+    "cpy-cli": "^3.1.0",
     "tns-platform-declarations": "^6.5.1",
+    "trash-cli": "^3.0.0",
     "typescript": "^3.8.3"
   },
   "bugs": {
