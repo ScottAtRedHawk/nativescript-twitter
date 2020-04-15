@@ -10,10 +10,7 @@
     "lib": ["ES2017"],
     "skipLibCheck": true,
     "rootDir": ".",
-    "baseUrl": ".",
-    "paths": {
-      "*": ["./node_modules/tns-core-modules/*", "./node_modules/*"]
-    }
+    "baseUrl": "."
   },
   "exclude": ["demo", "demo-ng", "node_modules", "platforms", "**/*.aot.ts"]
 }
