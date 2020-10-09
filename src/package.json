@@ -6,8 +6,8 @@
   "typings": "index.d.ts",
   "nativescript": {
     "platforms": {
-      "ios": "6.5.0",
-      "android": "6.5.0"
+      "ios": "6.5.2",
+      "android": "6.5.3"
     }
   },
   "scripts": {
@@ -32,13 +32,12 @@
     "url": "https://github.com/triniwiz"
   },
   "license": "MIT",
-  "dependencies": {
-    "@nativescript/core": "6.5.1"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "cpy-cli": "^3.1.0",
-    "tns-platform-declarations": "^6.5.1",
-    "trash-cli": "^3.0.0",
+    "@nativescript/core": "^6.5.20",
+    "cpy-cli": "^3.1.1",
+    "tns-platform-declarations": "^6.5.15",
+    "trash-cli": "^3.1.0",
     "typescript": "^3.8.3"
   },
   "bugs": {
